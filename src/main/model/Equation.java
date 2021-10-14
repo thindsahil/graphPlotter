@@ -35,7 +35,14 @@ public class Equation {
                 .variable("x")
                 .build()
                 .setVariable("x", x);
-        return (int) (0.5 + ex.evaluate());
+
+        double result = ex.evaluate();
+
+        if (result > 0) {
+            return (int) (result + 0.5);
+        } else {
+            return (int) (result - 0.5);
+        }
 
     }
 }

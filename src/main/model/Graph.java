@@ -27,7 +27,6 @@ public class Graph {
     //MODIFIES: this
     //EFFECTS: adds points to the graph
     public void addPointsToGraph() {
-
         for (int i = -1 * width / 2; i <= width / 2; i++) {
 
             int y = (height - 1) - equation.substitute(i) - height / 2;
@@ -48,6 +47,17 @@ public class Graph {
             graphPic += Arrays.toString(row).replace(",", " ") + "\n";
         }
         return graphPic;
+    }
+
+    //EFFECTS: returns true if given point (x,y) is on graph
+    public boolean pointOnGraph(int x, int y) {
+        int indexX = x + width / 2;
+        int indexY = (height - 1) - y - height / 2;
+        if (graph[indexY][indexX] == "*") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

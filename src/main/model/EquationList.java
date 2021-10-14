@@ -13,7 +13,7 @@ public class EquationList {
 
     //MODIFIES: this
     //EFFECTS: adds given equation to list
-    public void addEquationToList(Equation eq) {
+    public void addEquation(Equation eq) {
         graphList.add(eq);
     }
 
@@ -38,9 +38,13 @@ public class EquationList {
         int counter = 1;
         String list = "";
 
-        for (Equation eq: graphList) {
-            list += counter + ". y= " + eq.getEquation() + "\n";
-            counter++;
+        if (length() < 1) {
+            return "empty";
+        } else {
+            for (Equation eq: graphList) {
+                list += counter + ". y= " + eq.getEquation() + "\n";
+                counter++;
+            }
         }
 
         return list;
@@ -58,5 +62,16 @@ public class EquationList {
     //EFFECTS: changes equation at index + 1 in list to eq
     public void updateEquation(int index, Equation eq) {
         graphList.set(index - 1, eq);
+    }
+
+    //EFFECTS: returns length of list
+    public int length() {
+        return graphList.size();
+    }
+
+    //REQUIRES: index > 0 and smaller than length of list
+    //EFFECTS: returns equation at given index - 1
+    public Equation getEquation(int index) {
+        return graphList.get(index - 1);
     }
 }
