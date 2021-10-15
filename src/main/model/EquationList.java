@@ -38,14 +38,11 @@ public class EquationList {
         int counter = 1;
         String list = "";
 
-        if (length() < 1) {
-            return "empty";
-        } else {
-            for (Equation eq: graphList) {
-                list += counter + ". y= " + eq.getEquation() + "\n";
-                counter++;
-            }
+        for (Equation eq: graphList) {
+            list += counter + ". y= " + eq.getEquation() + "\n";
+            counter++;
         }
+
 
         return list;
     }
