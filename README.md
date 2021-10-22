@@ -31,5 +31,4 @@ This is also a good way to test and expand my programming knowledge.
 - As a user, I want to be able to delete an existing graph
 - As a user, I want to be promoted to save the current list of equations to a file
 when I quit the application 
-- As a user, I want to be able to load the equation list file when I start the application
-
+- As a user, I want to be able to load the equations list file when I start the application
