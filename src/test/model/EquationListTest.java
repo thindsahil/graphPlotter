@@ -98,6 +98,7 @@ public class EquationListTest {
         String actual = "1. y= x" + "\n" +
                         list.getEquation(1).graphEquation() + "\n";
 
+
         assertEquals(expected, actual);
     }
 

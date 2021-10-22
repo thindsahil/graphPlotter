@@ -5,6 +5,10 @@ import model.EquationList;
 
 import java.util.Scanner;
 
+
+// This class references code from this [repo]
+// Link: [https://github.students.cs.ubc.ca/CPSC210/TellerApp]
+
 //Graph Plotting Application
 public class GraphPlotter {
     private EquationList list;
