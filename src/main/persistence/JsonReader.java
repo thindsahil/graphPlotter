@@ -51,6 +51,7 @@ public class JsonReader {
         addEquations(list, jsonObject);
         return list;
     }
+
     // MODIFIES: EquationList
     // EFFECTS: parses equation from JSON object and adds them to EquationList
     private void addEquations(EquationList list, JSONObject jsonObject) {
