@@ -3,6 +3,12 @@ package ui;
 import model.Equation;
 import model.EquationList;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import persistence.Writable;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -14,6 +20,10 @@ public class GraphPlotter {
     private EquationList list;
     private Scanner input;
     String command = "";
+    private static final String JSON_STORE = "./data/list.json";
+
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     //EFFECTS: runs the graph plotter application
     public GraphPlotter() {
@@ -45,6 +55,8 @@ public class GraphPlotter {
     //MODIFIES: this
     //EFFECTS: initializes an empty list of equations
     private void init() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         list = new EquationList();
         input = new Scanner(System.in);
     }
@@ -57,6 +69,8 @@ public class GraphPlotter {
         System.out.println("\t d -> delete existing equation");
         System.out.println("\t s -> show equations in list");
         System.out.println("\t g -> graph equations in list");
+        System.out.println("\t p -> save equation list");
+        System.out.println("\t r -> load equation list");
     }
 
     //MODIFIES: this
@@ -72,6 +86,10 @@ public class GraphPlotter {
             updateEquation();
         } else if (command.equals("g")) {
             graphEquation();
+        }  else if (command.equals("p")) {
+            saveEquationList();
+        } else if (command.equals("r")) {
+            loadEquationList();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -197,5 +215,28 @@ public class GraphPlotter {
     //EFFECTS: checks if given equation of index exists in list of equations
     private boolean checkIndex(int i) {
         return (i <= list.length()) && (i > 0);
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveEquationList() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(list);
+            jsonWriter.close();
+            System.out.println("Saved " + list.toString() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    //EFFECTS: loads the equations from file to EquationList
+    private void loadEquationList() {
+        try {
+            list = jsonReader.read();
+            System.out.println("Loaded equations from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+        System.out.println(list.viewEquations());
     }
 }

@@ -1,9 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import persistence.Writable;
 
 //represents a list of equations
-public class EquationList {
+public class EquationList implements Writable {
     ArrayList<Equation> graphList; //list of equations
 
     //EFFECTS: creates an empty list of equations
@@ -71,4 +74,23 @@ public class EquationList {
     public Equation getEquation(int index) {
         return graphList.get(index - 1);
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Equation List", equationsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns equations in EquationList as a JSON array
+    private JSONArray equationsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Equation eq :graphList) {
+            jsonArray.put(eq.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }

@@ -2,9 +2,11 @@ package model;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.json.JSONObject;
+import persistence.Writable;
 
 //represents an equation
-public class Equation {
+public class Equation implements Writable {
     private String equation;
 
     //REQUIRES: equation has non-zero length, and only contains:
@@ -13,7 +15,6 @@ public class Equation {
     public Equation(String equation) {
         this.equation = equation;
     }
-
 
     public String getEquation() {
         return equation;
@@ -45,4 +46,12 @@ public class Equation {
         }
 
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("y=", equation);
+        return json;
+    }
+
 }
