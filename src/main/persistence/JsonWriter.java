@@ -1,9 +1,8 @@
 package persistence;
 
 import model.EquationList;
-import org.json.JSONObject;
+import org.json.JSONArray;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
@@ -12,7 +11,7 @@ import java.io.PrintWriter;
 
 // Represents a writer that writes JSON representation of workroom to file
 public class JsonWriter {
-    private String destination;
+    private final String destination;
     private PrintWriter writer;
 
     public JsonWriter(String destination) {
@@ -23,12 +22,12 @@ public class JsonWriter {
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
-        writer = new PrintWriter(new File(destination));
+        writer = new PrintWriter(destination);
     }
 
     public void write(EquationList list) {
-        JSONObject json = list.toJson();
-        saveToFile(json.toString(5));
+        JSONArray json = list.equationsToJson();
+        saveToFile(json.toString(1));
     }
 
     // MODIFIES: this

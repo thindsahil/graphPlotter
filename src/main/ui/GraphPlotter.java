@@ -5,7 +5,6 @@ import model.EquationList;
 
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import persistence.Writable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

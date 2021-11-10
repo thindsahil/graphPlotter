@@ -60,13 +60,4 @@ public class Graph {
         }
     }
 
-
-//    public String[][] getGraph() {
-//        return graph;
-//    }
-//
-//    public void getGraphEquation(String[][] g) {
-//        graph = g;
-//    }
-
 }

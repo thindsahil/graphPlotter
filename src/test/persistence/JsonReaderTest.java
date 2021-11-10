@@ -39,7 +39,7 @@ public class JsonReaderTest {
         JsonReader jsonReader = new JsonReader("./data/testReader.json");
         try {
             EquationList list = jsonReader.read();
-            assertFalse(list.getEquation(1).getEquation().equals("2x"));
+            assertNotEquals("2x", list.getEquation(1).getEquation());
         } catch (IOException e) {
             fail("No exception expected");
         }
