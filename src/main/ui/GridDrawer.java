@@ -4,22 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 
 import model.Equation;
+import model.EquationList;
 
-public class Grid extends JPanel {
+public class GridDrawer extends JPanel {
 
     private int width;
     private int height;
+    private EquationList list;
 
-    public Grid(double frameWidth, double frameHeight) {
-        width = (int) frameWidth;
-        height = (int) frameHeight;
+    public GridDrawer(int frameWidth, int frameHeight) {
+        width = frameWidth;
+        height = frameHeight;
+
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);
         drawGrid(g);
         drawGraph(g);
+
     }
 
     public void drawGrid(Graphics g) {
