@@ -1,5 +1,6 @@
 package ui;
 
+
 import model.EquationList;
 
 import javax.swing.*;
@@ -8,7 +9,6 @@ import java.awt.event.ActionListener;
 
 public class GraphPlotterGUI {
 
-    //Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
     int frameWidth = (1920 * 3) / 4;
     int frameHeight = (1080 * 3) / 4;
 
@@ -17,8 +17,8 @@ public class GraphPlotterGUI {
     JLayeredPane layers;
     EquationDrawer drawer;
     EquationPanel menu;
-    EquationList list;
     JButton button;
+
 
     public GraphPlotterGUI() {
         frame = new JFrame();
@@ -26,18 +26,15 @@ public class GraphPlotterGUI {
         frame.setTitle("Graph Plotter");
         frame.setSize(frameWidth,frameHeight);
 
+
+
         GridDrawer g = new GridDrawer(frameWidth,frameHeight);
         g.setBounds(0,0,frameWidth,frameHeight);
 
         menu = new EquationPanel(400, 600);
 
+        menu.addUpdateGraphEventListener(this::updateGraphs);
 
-        list = new EquationList();
-//        Equation eq1 = new Equation("x^3");
-//        Equation eq2 = new Equation("x^2");
-//
-//        list.addEquation(eq1);
-//        list.addEquation(eq2);
 
         button = new JButton("☰");
         button.setBounds(30, 30, 50, 50);
@@ -45,7 +42,7 @@ public class GraphPlotterGUI {
         layers = new JLayeredPane();
         layers.add(g, new Integer(100));
 
-        drawer = new EquationDrawer(list);
+        drawer = new EquationDrawer(new EquationList());
 
         layers.add(drawer, new Integer(101));
         layers.add(menu, new Integer(102));
@@ -59,17 +56,13 @@ public class GraphPlotterGUI {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //updateEquations();
                 menu.setVisible(!menu.isVisible());
             }
         });
     }
 
-    public void updateEquations() {
-        list = menu.getEquationList();
-        drawer.setList(list);
+    public void updateGraphs() {
+        drawer.setList(menu.getEquationList());
         drawer.refresh();
-
     }
-
 }

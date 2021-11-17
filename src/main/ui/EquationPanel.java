@@ -5,16 +5,14 @@ import model.Equation;
 import model.EquationList;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EquationPanel extends JPanel implements ActionListener {
 
@@ -26,11 +24,12 @@ public class EquationPanel extends JPanel implements ActionListener {
     private DefaultTableModel model;
     private final JTextField textField = new JTextField("",10);
 
+    List<UpdateGraphEvent> listeners;
 
     public EquationPanel(int width, int height) {
         windowWidth = width;
         windowHeight = height;
-
+        listeners = new ArrayList<>();
         setBorder(BorderFactory.createEmptyBorder(60,10,10,10));
         setBounds(20, 20, 400, 600);
         setLayout(new BorderLayout(5, 5));
@@ -46,6 +45,7 @@ public class EquationPanel extends JPanel implements ActionListener {
 
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
@@ -64,12 +64,23 @@ public class EquationPanel extends JPanel implements ActionListener {
             model.addRow(new Object[]{"y= " + text, "X"});
             list.addEquation(new Equation(text));
             textField.setText("");
+            update();
         }
 
     }
 
     public EquationList getEquationList() {
         return list;
+    }
+
+    public void addUpdateGraphEventListener(UpdateGraphEvent listener) {
+        listeners.add(listener);
+    }
+
+    public void update() {
+        for (UpdateGraphEvent listener : listeners) {
+            listener.updateGraphs();
+        }
     }
 
     private void setupEquationTable() {
@@ -124,14 +135,5 @@ public class EquationPanel extends JPanel implements ActionListener {
         });
     }
 
-    /*
-    public void mouseClicked(MouseEvent e) {
-                JTable source = (JTable) e.getSource();
-                int column = source.columnAtPoint(e.getPoint());
-                if (column == 1) {
-                    model.removeRow(source.rowAtPoint(e.getPoint()));
-                }
-            }
-     */
 
 }

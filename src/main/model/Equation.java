@@ -45,4 +45,14 @@ public class Equation {
 
     }
 
+    public double substituteDouble(double x) {
+        Expression ex = new ExpressionBuilder(equation)
+                .variable("x")
+                .build()
+                .setVariable("x", x);
+
+        return ex.evaluate();
+
+    }
+
 }

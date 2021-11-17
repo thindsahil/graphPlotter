@@ -3,14 +3,10 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-import model.Equation;
-import model.EquationList;
-
 public class GridDrawer extends JPanel {
 
     private int width;
     private int height;
-    private EquationList list;
 
     public GridDrawer(int frameWidth, int frameHeight) {
         width = frameWidth;
@@ -23,7 +19,6 @@ public class GridDrawer extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);
         drawGrid(g);
-        drawGraph(g);
 
     }
 
@@ -36,21 +31,5 @@ public class GridDrawer extends JPanel {
         }
     }
 
-    public void drawGraph(Graphics g) {
-        g.setColor(Color.GREEN);
-        Equation eq = new Equation("1/3 x^3-40x^2+200x -40");
-
-        int prevX = -1 * width;
-        int prevY = height;
-        for (int i = (-1 * width) / 2; i <= width / 2; i++) {
-            int y = eq.substitute(i) / 1200;
-            g.drawLine(prevX + width / 2,
-                    (height / 2) - prevY,
-                    i + width / 2,
-                    (height / 2) - y);
-            prevX = i;
-            prevY = y;
-        }
-    }
 
 }
