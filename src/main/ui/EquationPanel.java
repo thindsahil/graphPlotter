@@ -102,37 +102,37 @@ public class EquationPanel extends JPanel implements ActionListener {
 
         eqTable.setCellSelectionEnabled(true);
         //eqTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        eqTable.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = eqTable.rowAtPoint(e.getPoint());
-                int col = eqTable.columnAtPoint(e.getPoint());
-
-                if (col == 1) {
-                    model.removeRow(row);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
+//        eqTable.addMouseListener(new MouseListener() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int row = eqTable.rowAtPoint(e.getPoint());
+//                int col = eqTable.columnAtPoint(e.getPoint());
+//
+//                if (col == 1) {
+//                    model.removeRow(row);
+//                }
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//
+//            }
+//        });
     }
 
 

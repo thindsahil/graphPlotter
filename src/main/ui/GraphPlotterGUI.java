@@ -4,8 +4,6 @@ package ui;
 import model.EquationList;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GraphPlotterGUI {
 
@@ -50,15 +48,9 @@ public class GraphPlotterGUI {
 
         frame.add(layers);
 
-
         frame.setVisible(true);
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                menu.setVisible(!menu.isVisible());
-            }
-        });
+        button.addActionListener(e -> menu.setVisible(!menu.isVisible()));
     }
 
     public void updateGraphs() {
