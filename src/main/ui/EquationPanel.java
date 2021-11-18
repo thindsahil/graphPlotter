@@ -5,14 +5,14 @@ import model.Equation;
 import model.EquationList;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EquationPanel extends JPanel implements ActionListener {
 
@@ -22,7 +22,7 @@ public class EquationPanel extends JPanel implements ActionListener {
     private final EquationList list;
     private JTable eqTable;
     private DefaultTableModel model;
-    private final JTextField textField = new JTextField("",10);
+    private final JTextField textField = new JTextField("");
 
     List<UpdateGraphEvent> listeners;
 
@@ -60,8 +60,9 @@ public class EquationPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addEquationButton) {
+            //Color randColor = getRandomColour();
             String text = textField.getText();
-            model.addRow(new Object[]{"y= " + text, "X"});
+            model.addRow(new Object[]{"y=", text, "X"});
             list.addEquation(new Equation(text));
             textField.setText("");
             update();
@@ -83,15 +84,18 @@ public class EquationPanel extends JPanel implements ActionListener {
         }
     }
 
+
     private void setupEquationTable() {
         model = new DefaultTableModel();
         eqTable = new JTable(model);
 
+        model.addColumn("");
         model.addColumn("Equations");
         model.addColumn("");
 
         eqTable.setPreferredScrollableViewportSize(new Dimension(200, 450));
-        eqTable.getColumnModel().getColumn(1).setMaxWidth(20);
+        eqTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        eqTable.getColumnModel().getColumn(2).setMaxWidth(20);
 
         eqTable.setFont(new Font("Cambria", Font.PLAIN, 20));
         eqTable.getTableHeader().setFont(new Font("Cambria", Font.BOLD, 30));
@@ -101,38 +105,32 @@ public class EquationPanel extends JPanel implements ActionListener {
         add(new JScrollPane(eqTable), BorderLayout.SOUTH);
 
         eqTable.setCellSelectionEnabled(true);
-        //eqTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//        eqTable.addMouseListener(new MouseListener() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                int row = eqTable.rowAtPoint(e.getPoint());
-//                int col = eqTable.columnAtPoint(e.getPoint());
-//
-//                if (col == 1) {
-//                    model.removeRow(row);
-//                }
-//            }
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//
-//            }
-//        });
+
+        model.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                        int row = e.getLastRow();
+                        String newEq = (String) model.getValueAt(row, 1);
+
+                        list.updateEquation(row, new Equation(newEq));
+                        update();
+                }
+            }
+        });
+        eqTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = eqTable.rowAtPoint(e.getPoint());
+                int col = eqTable.columnAtPoint(e.getPoint());
+
+                if (col == 2) {
+                    model.removeRow(row);
+                    list.removeEquation(row);
+                    update();
+                }
+            }
+        });
     }
 
 

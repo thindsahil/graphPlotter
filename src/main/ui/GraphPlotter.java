@@ -130,7 +130,7 @@ public class GraphPlotter {
             System.out.println(list.viewEquations());
             System.out.print("Enter the number of which equation to delete: ");
 
-            int index = input.nextInt();
+            int index = input.nextInt() - 1;
             while (!checkIndex(index)) {
                 System.out.print("There is no equation at given number. Try Again: ");
                 index = input.nextInt();
@@ -153,7 +153,7 @@ public class GraphPlotter {
             System.out.println(list.viewEquations());
             System.out.print("Enter the number of which equation to update: ");
 
-            int index = input.nextInt();
+            int index = input.nextInt() - 1;
             while (!checkIndex(index)) {
                 System.out.print("There is no equation at given number. Try Again: ");
                 index = input.nextInt();
@@ -198,7 +198,7 @@ public class GraphPlotter {
     //         graphs a single equation
     private void printSingleGraph() {
         System.out.print("Enter the number of which equation to graph: ");
-        int index = input.nextInt();
+        int index = input.nextInt() - 1;
         while (!checkIndex(index)) {
             System.out.print("There is no equation at given number. Try Again: ");
             index = input.nextInt();
@@ -213,7 +213,7 @@ public class GraphPlotter {
 
     //EFFECTS: checks if given equation of index exists in list of equations
     private boolean checkIndex(int i) {
-        return (i <= list.length()) && (i > 0);
+        return (i < list.length()) && (i >= 0);
     }
 
     // EFFECTS: saves the workroom to file

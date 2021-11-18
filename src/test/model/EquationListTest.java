@@ -33,7 +33,7 @@ public class EquationListTest {
         list.addEquation(eq2);
         assertEquals(list.length(), 1);
 
-        assertEquals(list.getEquation(1), eq2);
+        assertEquals(list.getEquation(0), eq2);
     }
 
     @Test
@@ -43,10 +43,10 @@ public class EquationListTest {
 
         assertEquals(list.length(), 2);
 
-        list.removeEquation(1);
+        list.removeEquation(0);
 
         assertEquals(list.length(), 1);
-        assertEquals(list.getEquation(1), eq2);
+        assertEquals(list.getEquation(0), eq2);
 
     }
 
@@ -57,11 +57,11 @@ public class EquationListTest {
 
         Equation eq3 = new Equation("1/2*x");
 
-        assertEquals(list.getEquation(2), eq2);
+        assertEquals(list.getEquation(1), eq2);
 
-        list.updateEquation(2,eq3);
+        list.updateEquation(0,eq3);
 
-        String eq2String = list.getEquation(2).getEquation();
+        String eq2String = list.getEquation(0).getEquation();
 
         assertEquals(list.length(), 2);
         assertEquals(eq2String, "1/2*x");
@@ -96,7 +96,7 @@ public class EquationListTest {
 
         String expected = list.viewGraphs();
         String actual = "1. y= x" + "\n" +
-                        list.getEquation(1).graphEquation() + "\n";
+                        list.getEquation(0).graphEquation() + "\n";
 
 
         assertEquals(expected, actual);
@@ -109,9 +109,9 @@ public class EquationListTest {
 
         String expected = list.viewGraphs();
         String actual = "1. y= x" + "\n" +
-                list.getEquation(1).graphEquation() + "\n" +
+                list.getEquation(0).graphEquation() + "\n" +
                 "2. y= (x-1)^2" + "\n" +
-                list.getEquation(2).graphEquation() + "\n";
+                list.getEquation(1).graphEquation() + "\n";
 
         assertEquals(expected, actual);
     }

@@ -53,14 +53,14 @@ public class EquationList {
     //MODIFIES: this
     //EFFECTS: removes equation from list at given index - 1
     public void removeEquation(int index) {
-        graphList.remove(index - 1);
+        graphList.remove(index);
     }
 
     //REQUIRES: index > 0 and smaller than length of list
     //MODIFIES: this
     //EFFECTS: changes equation at index + 1 in list to eq
     public void updateEquation(int index, Equation eq) {
-        graphList.set(index - 1, eq);
+        graphList.set(index, eq);
     }
 
     //EFFECTS: returns length of list
@@ -69,9 +69,9 @@ public class EquationList {
     }
 
     //REQUIRES: index > 0 and smaller than length of list
-    //EFFECTS: returns equation at given index - 1
+    //EFFECTS: returns equation at given index
     public Equation getEquation(int index) {
-        return graphList.get(index - 1);
+        return graphList.get(index);
     }
 
     // EFFECTS: returns equations in EquationList as a JSON array
