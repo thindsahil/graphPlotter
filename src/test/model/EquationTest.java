@@ -17,6 +17,8 @@ public class EquationTest {
     public void substituteTest() {
         assertEquals(eq.substitute(0), 0);
         assertEquals(eq.substitute(2), 4);
+
+        assertEquals(eq.substituteDouble(2.0), 4.0);
     }
 
     @Test

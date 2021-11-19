@@ -45,6 +45,7 @@ public class Equation {
 
     }
 
+    //EFFECTS: substitutes given x in the equation, returns the result as an int
     public double substituteDouble(double x) {
         Expression ex = new ExpressionBuilder(equation)
                 .variable("x")

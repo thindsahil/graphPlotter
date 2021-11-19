@@ -1,32 +1,32 @@
 package ui;
 
-
 import model.Equation;
 import model.EquationList;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class EquationPanel extends JPanel implements ActionListener {
+//This class uses the idea of getting updates from another class show in this video:
+// https://www.youtube.com/watch?v=T7c6lzbeFHE
+public class MenuPanel extends JPanel implements ActionListener {
 
     private final int windowWidth;
     private final int windowHeight;
     private final JButton addEquationButton;
-    private final EquationList list;
+    private EquationList list;
     private JTable eqTable;
     private DefaultTableModel model;
     private final JTextField textField = new JTextField("");
+    private final PersistencePanel persistencePanel;
 
     List<UpdateGraphEvent> listeners;
 
-    public EquationPanel(int width, int height) {
+    public MenuPanel(int width, int height) {
         windowWidth = width;
         windowHeight = height;
         listeners = new ArrayList<>();
@@ -37,6 +37,10 @@ public class EquationPanel extends JPanel implements ActionListener {
         add(textField, BorderLayout.CENTER);
         add(addEquationButton, BorderLayout.EAST);
         addEquationButton.addActionListener(this);
+        persistencePanel = new PersistencePanel();
+        persistencePanel.addLoadEquationsEventListener(this::loadEquations);
+
+        add(persistencePanel, BorderLayout.WEST);
 
         setupEquationTable();
 
@@ -66,6 +70,7 @@ public class EquationPanel extends JPanel implements ActionListener {
             list.addEquation(new Equation(text));
             textField.setText("");
             update();
+            persistencePanel.setList(list);
         }
 
     }
@@ -85,6 +90,7 @@ public class EquationPanel extends JPanel implements ActionListener {
     }
 
 
+
     private void setupEquationTable() {
         model = new DefaultTableModel();
         eqTable = new JTable(model);
@@ -101,23 +107,26 @@ public class EquationPanel extends JPanel implements ActionListener {
         eqTable.getTableHeader().setFont(new Font("Cambria", Font.BOLD, 30));
         eqTable.setRowHeight(eqTable.getRowHeight() + 10);
 
-
         add(new JScrollPane(eqTable), BorderLayout.SOUTH);
 
         eqTable.setCellSelectionEnabled(true);
 
-        model.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                        int row = e.getLastRow();
-                        String newEq = (String) model.getValueAt(row, 1);
+        setupEquationTableListeners();
 
-                        list.updateEquation(row, new Equation(newEq));
-                        update();
-                }
+    }
+
+    private void setupEquationTableListeners() {
+        model.addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE && e.getType() == TableModelEvent.DELETE) {
+                int row = e.getLastRow();
+                String newEq = (String) model.getValueAt(row, 1);
+
+                list.updateEquation(row, new Equation(newEq));
+                update();
+                persistencePanel.setList(list);
             }
         });
+
         eqTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -128,9 +137,24 @@ public class EquationPanel extends JPanel implements ActionListener {
                     model.removeRow(row);
                     list.removeEquation(row);
                     update();
+                    persistencePanel.setList(list);
                 }
             }
         });
+    }
+
+    public void loadEquations() {
+        model.getDataVector().removeAllElements();
+        model.fireTableRowsDeleted(0,list.length());
+
+        EquationList savedList = persistencePanel.getList();
+        list = savedList;
+        for (int i = 0; i < savedList.length(); i++) {
+            String eq = savedList.getEquation(i).getEquation();
+            model.addRow(new Object[]{"y=", eq, "X"});
+        }
+        update();
+
     }
 
 

@@ -6,17 +6,23 @@ import model.EquationList;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.abs;
 
+//Represents an Equation Drawer
 public class EquationDrawer extends JPanel {
 
     private int width = (1920 * 3) / 4;
     private int height = (1080 * 3) / 4;
     private EquationList list;
     private double scale = 40.0;
+    private ArrayList<Color> colors = new ArrayList<>();
 
+    //MODIFIES: this,
+    //EFFECTS: Constructs an equation drawer with given list, makes the drawing transparent
+    //         ands sets the bounds
     public EquationDrawer(EquationList list) {
         this.list = list;
         setOpaque(false);
@@ -30,23 +36,28 @@ public class EquationDrawer extends JPanel {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: Draws all equations in list onto the panel
     public void drawGraph(Graphics g) {
-        g.setColor(getRandomColour());
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2f));
 
         for (int a = 0; a < list.length(); a++) {
-            Equation eq = list.getEquation(a);
-            double x;
-            double y;
-            double nextX;
-            double nextY;
-            for (int i = 0; i <= width; i++) {
-                x = (width / 2.0 - i) / scale;
-                y = eq.substituteDouble(x);
+            if (a + 1 > colors.size()) {
+                colors.add(getRandomColour());
+            }
+            g.setColor(colors.get(a));
 
-                nextX = ((width / 2.0) - (i + 1)) / scale;
-                nextY = eq.substituteDouble(nextX);
+            Equation eq = list.getEquation(a);
+
+            for (int i = 0; i <= width; i++) {
+
+                double x = (width / 2.0 - i) / scale;
+                double y = eq.substituteDouble(x);
+
+                double nextX = ((width / 2.0) - (i + 1)) / scale;
+                double nextY = eq.substituteDouble(nextX);
 
                 if (abs(y - nextY) * scale < height) {
                     Shape l = new Line2D.Double((width / 2.0) + x * scale,
@@ -65,6 +76,7 @@ public class EquationDrawer extends JPanel {
 
     //this method uses code from:
     // https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
+    //EFFECTS: returns a random vibrant colour
     public Color getRandomColour() {
 
         //to get rainbow, pastel colors
@@ -76,15 +88,13 @@ public class EquationDrawer extends JPanel {
         return Color.getHSBColor(hue, saturation, luminance);
     }
 
-
+    //MODIFIES: list
+    //EFFECTS: sets the field list to given list
     public void setList(EquationList list) {
         this.list = list;
     }
 
-    public void addEquationToGraph(Equation eq) {
-        list.addEquation(eq);
-    }
-
+    //EFFECTS: Redraws everything on the panel
     public void refresh() {
         revalidate();
         repaint();

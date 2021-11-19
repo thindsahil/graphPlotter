@@ -14,7 +14,7 @@ public class GraphPlotterGUI {
 
     JLayeredPane layers;
     EquationDrawer drawer;
-    EquationPanel menu;
+    MenuPanel menu;
     JButton button;
 
 
@@ -29,7 +29,7 @@ public class GraphPlotterGUI {
         GridDrawer g = new GridDrawer(frameWidth,frameHeight);
         g.setBounds(0,0,frameWidth,frameHeight);
 
-        menu = new EquationPanel(400, 600);
+        menu = new MenuPanel(400, 600);
 
         menu.addUpdateGraphEventListener(this::updateGraphs);
 
