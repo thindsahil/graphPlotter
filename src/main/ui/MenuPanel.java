@@ -13,6 +13,8 @@ import java.util.List;
 
 //This class uses the idea of getting updates from another class show in this video:
 // https://www.youtube.com/watch?v=T7c6lzbeFHE
+
+//Represents a menu panel where user can add/delete/update and save/load equations
 public class MenuPanel extends JPanel implements ActionListener {
 
     private final int windowWidth;
@@ -26,6 +28,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     List<UpdateGraphEvent> listeners;
 
+    //MODIFIES: this
+    //EFFECTS: constructs a menu panel with given dimensions
     public MenuPanel(int width, int height) {
         windowWidth = width;
         windowHeight = height;
@@ -56,6 +60,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     }
 
+    //EFFECTS: Draws a rectangle as the background of the menu panel
     public void draw(Graphics g) {
         g.setColor(Color.GRAY);
         g.fillRect(0,0, windowWidth, windowHeight);
@@ -75,22 +80,27 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     }
 
+    //EFFECTS: returns equation list
     public EquationList getEquationList() {
         return list;
     }
 
+    //MODIFIES: listeners
+    //EFFECTS: adds UpdateGraphEvent to listeners list
     public void addUpdateGraphEventListener(UpdateGraphEvent listener) {
         listeners.add(listener);
     }
 
+    //MODIFIES: listeners
+    //EFFECTS: updates every UpdateGraphEvent in listeners
     public void update() {
         for (UpdateGraphEvent listener : listeners) {
             listener.updateGraphs();
         }
     }
 
-
-
+    //MODIFIES: this, eqTable, model
+    //EFFECTS: sets the font, font size and other visual components of the eqTable
     private void setupEquationTable() {
         model = new DefaultTableModel();
         eqTable = new JTable(model);
@@ -115,9 +125,11 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     }
 
+    //MODIFIES: eqTable, model
+    //EFFECTS: adds event listeners to eqTable and adds behaviour for each event
     private void setupEquationTableListeners() {
         model.addTableModelListener(e -> {
-            if (e.getType() == TableModelEvent.UPDATE && e.getType() == TableModelEvent.DELETE) {
+            if (e.getType() == TableModelEvent.UPDATE) {
                 int row = e.getLastRow();
                 String newEq = (String) model.getValueAt(row, 1);
 
@@ -143,6 +155,9 @@ public class MenuPanel extends JPanel implements ActionListener {
         });
     }
 
+    //MODIFIES: model, list
+    //EFFECTS: resets the data in eqTable and loads the equation list that user saved in eqTable
+    //         sets list to the new loaded equation list
     public void loadEquations() {
         model.getDataVector().removeAllElements();
         model.fireTableRowsDeleted(0,list.length());

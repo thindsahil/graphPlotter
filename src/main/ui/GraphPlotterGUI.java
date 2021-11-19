@@ -2,9 +2,9 @@ package ui;
 
 
 import model.EquationList;
-
 import javax.swing.*;
 
+//Represents a frame of the GUI
 public class GraphPlotterGUI {
 
     int frameWidth = (1920 * 3) / 4;
@@ -17,7 +17,8 @@ public class GraphPlotterGUI {
     MenuPanel menu;
     JButton button;
 
-
+    //MODIFIES: this
+    //EFFECTS: constructs GUI adds every panel to frame
     public GraphPlotterGUI() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,6 +54,8 @@ public class GraphPlotterGUI {
         button.addActionListener(e -> menu.setVisible(!menu.isVisible()));
     }
 
+    //MODIFIES: drawer
+    //EFFECTS: sets drawer's equation list to the same one in menu
     public void updateGraphs() {
         drawer.setList(menu.getEquationList());
         drawer.refresh();

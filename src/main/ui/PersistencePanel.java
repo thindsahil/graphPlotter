@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Represents a panel with save and load buttons
 public class PersistencePanel extends JPanel implements ActionListener {
 
     JButton saveButton;
@@ -25,6 +26,7 @@ public class PersistencePanel extends JPanel implements ActionListener {
 
     List<LoadEquationEvent> listeners;
 
+    //EFFECTS: Constructs a panel with save/load buttons and a jsonWriter/jsonReader
     public PersistencePanel() {
         saveButton = new JButton("Save");
         loadButton = new JButton("Load");
@@ -65,10 +67,14 @@ public class PersistencePanel extends JPanel implements ActionListener {
         }
     }
 
+    //MODIFIES: listeners
+    //EFFECTS: adds LoadEquationUpdate to listeners list
     public void addLoadEquationsEventListener(LoadEquationEvent listener) {
         listeners.add(listener);
     }
 
+    //MODIFIES: listeners
+    //EFFECTS: updates every LoadEquationUpdate in listeners
     public void loadEquations() {
         for (LoadEquationEvent listener : listeners) {
             listener.loadEquation();
