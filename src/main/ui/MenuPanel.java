@@ -15,7 +15,7 @@ import java.util.List;
 // https://www.youtube.com/watch?v=T7c6lzbeFHE
 
 //Represents a menu panel where user can add/delete/update and save/load equations
-public class MenuPanel extends JPanel implements ActionListener {
+public class MenuPanel extends JPanel implements ActionListener, LoadEquationObserver {
 
     private final int windowWidth;
     private final int windowHeight;
@@ -26,14 +26,14 @@ public class MenuPanel extends JPanel implements ActionListener {
     private final JTextField textField = new JTextField("");
     private final PersistencePanel persistencePanel;
 
-    List<UpdateGraphEvent> listeners;
+    private List<GraphUpdateObserver> observers;
 
     //MODIFIES: this
     //EFFECTS: constructs a menu panel with given dimensions
     public MenuPanel(int width, int height) {
         windowWidth = width;
         windowHeight = height;
-        listeners = new ArrayList<>();
+        observers = new ArrayList<>();
         setBorder(BorderFactory.createEmptyBorder(60,10,10,10));
         setBounds(20, 20, 400, 600);
         setLayout(new BorderLayout(5, 5));
@@ -42,7 +42,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         add(addEquationButton, BorderLayout.EAST);
         addEquationButton.addActionListener(this);
         persistencePanel = new PersistencePanel();
-        persistencePanel.addLoadEquationsEventListener(this::loadEquations);
+        persistencePanel.addLoadEquationObserver(this);
 
         add(persistencePanel, BorderLayout.WEST);
 
@@ -74,7 +74,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             model.addRow(new Object[]{"y=", text, "X"});
             list.addEquation(new Equation(text));
             textField.setText("");
-            update();
+            notifyUpdateGraphObservers();
             persistencePanel.setList(list);
         }
 
@@ -85,17 +85,20 @@ public class MenuPanel extends JPanel implements ActionListener {
         return list;
     }
 
-    //MODIFIES: listeners
-    //EFFECTS: adds UpdateGraphEvent to listeners list
-    public void addUpdateGraphEventListener(UpdateGraphEvent listener) {
-        listeners.add(listener);
+    //MODIFIES: observers
+    //EFFECTS: adds GraphUpdateObserver to listeners list
+    public void addUpdateGraphObserver(GraphUpdateObserver observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+
     }
 
-    //MODIFIES: listeners
-    //EFFECTS: updates every UpdateGraphEvent in listeners
-    public void update() {
-        for (UpdateGraphEvent listener : listeners) {
-            listener.updateGraphs();
+    //MODIFIES: observers
+    //EFFECTS: updates every GraphUpdateObserver in observers
+    public void notifyUpdateGraphObservers() {
+        for (GraphUpdateObserver observer : observers) {
+            observer.updateGraphs();
         }
     }
 
@@ -134,7 +137,7 @@ public class MenuPanel extends JPanel implements ActionListener {
                 String newEq = (String) model.getValueAt(row, 1);
 
                 list.updateEquation(row, new Equation(newEq));
-                update();
+                notifyUpdateGraphObservers();
                 persistencePanel.setList(list);
             }
         });
@@ -148,7 +151,7 @@ public class MenuPanel extends JPanel implements ActionListener {
                 if (col == 2) {
                     model.removeRow(row);
                     list.removeEquation(row);
-                    update();
+                    notifyUpdateGraphObservers();
                     persistencePanel.setList(list);
                 }
             }
@@ -158,6 +161,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     //MODIFIES: model, list
     //EFFECTS: resets the data in eqTable and loads the equation list that user saved in eqTable
     //         sets list to the new loaded equation list
+    @Override
     public void loadEquations() {
         model.getDataVector().removeAllElements();
         model.fireTableRowsDeleted(0,list.length());
@@ -168,9 +172,10 @@ public class MenuPanel extends JPanel implements ActionListener {
             String eq = savedList.getEquation(i).getEquation();
             model.addRow(new Object[]{"y=", eq, "X"});
         }
-        update();
+        notifyUpdateGraphObservers();
 
     }
+
 
 
 }

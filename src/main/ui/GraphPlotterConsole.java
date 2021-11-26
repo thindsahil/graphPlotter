@@ -15,7 +15,7 @@ import java.util.Scanner;
 // Link: [https://github.students.cs.ubc.ca/CPSC210/TellerApp]
 
 //Graph Plotting Application
-public class GraphPlotter {
+public class GraphPlotterConsole {
     private EquationList list;
     private Scanner input;
     String command = "";
@@ -25,7 +25,7 @@ public class GraphPlotter {
     private JsonReader jsonReader;
 
     //EFFECTS: runs the graph plotter application
-    public GraphPlotter() {
+    public GraphPlotterConsole() {
         runGraphPlotter();
     }
 

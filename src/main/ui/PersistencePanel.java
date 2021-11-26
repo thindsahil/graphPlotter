@@ -18,13 +18,13 @@ public class PersistencePanel extends JPanel implements ActionListener {
     JButton saveButton;
     JButton loadButton;
 
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
     private static final String JSON_STORE = "./data/list.json";
 
     private EquationList list;
 
-    List<LoadEquationEvent> listeners;
+    private List<LoadEquationObserver> observers;
 
     //EFFECTS: Constructs a panel with save/load buttons and a jsonWriter/jsonReader
     public PersistencePanel() {
@@ -40,7 +40,7 @@ public class PersistencePanel extends JPanel implements ActionListener {
         saveButton.addActionListener(this);
         loadButton.addActionListener(this);
 
-        listeners = new ArrayList<>();
+        observers = new ArrayList<>();
 
     }
 
@@ -51,33 +51,35 @@ public class PersistencePanel extends JPanel implements ActionListener {
                 jsonWriter.open();
                 jsonWriter.write(list);
                 jsonWriter.close();
-                System.out.println("Saved Equation list to " + JSON_STORE);
+                //System.out.println("Saved Equation list to " + JSON_STORE);
             } catch (FileNotFoundException exception) {
-                System.out.println("Unable to write to file: " + JSON_STORE);
+                //System.out.println("Unable to write to file: " + JSON_STORE);
             }
         } else if (e.getSource() == loadButton) {
             try {
                 list = jsonReader.read();
-                System.out.println("Loaded equations from " + JSON_STORE);
+                //System.out.println("Loaded equations from " + JSON_STORE);
             } catch (IOException exception) {
                 System.out.println("Unable to read from file: " + JSON_STORE);
             }
             //System.out.println(list.viewEquations());
-            loadEquations();
+            notifyLoadEquationObservers();
         }
     }
 
     //MODIFIES: listeners
     //EFFECTS: adds LoadEquationUpdate to listeners list
-    public void addLoadEquationsEventListener(LoadEquationEvent listener) {
-        listeners.add(listener);
+    public void addLoadEquationObserver(LoadEquationObserver observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
     }
 
     //MODIFIES: listeners
     //EFFECTS: updates every LoadEquationUpdate in listeners
-    public void loadEquations() {
-        for (LoadEquationEvent listener : listeners) {
-            listener.loadEquation();
+    public void notifyLoadEquationObservers() {
+        for (LoadEquationObserver observer : observers) {
+            observer.loadEquations();
         }
     }
 

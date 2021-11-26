@@ -32,3 +32,24 @@ This is also a good way to test and expand my programming knowledge.
 - As a user, I want to be promoted to save the current list of equations to a file
 when I quit the application 
 - As a user, I want to be able to load the equations list file when I start the application
+
+**Phase 4: Task 2**
+
+>Thu Nov 25 20:39:41 PST 2021<br/>
+An equation y = tan(x) added to List<br/><br/>
+Thu Nov 25 20:39:50 PST 2021<br/>
+An equation y = x^2-4 added to List<br/><br/>
+Thu Nov 25 20:40:15 PST 2021<br/>
+Equation at index 0 updated to: y=2^(-x)<br/><br/>
+Thu Nov 25 20:40:22 PST 2021<br/>
+Equation at index 1 removed from list.
+
+**Phase4: Task 3**
+
+Looking at the UML diagram, a lot of the classes are dependent on multiple other classes.
+I think this will lead to problems if I want to change something major in one class. It 
+will also be hard to track down bugs in code. If I had more time to work on the project I would change the following:
+- Refactor my classes in `gui` package to reduce the associations to `EquationList`
+- Possibly make the classes in `gui` package more independent
+- Add more 'specific' classes to decrease coupling
+- There should be a way to remove the Observers and still have same functionality

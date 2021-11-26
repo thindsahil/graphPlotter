@@ -1,5 +1,5 @@
 package ui;
 
-public interface UpdateGraphEvent {
+public interface GraphUpdateObserver {
     void updateGraphs();
 }

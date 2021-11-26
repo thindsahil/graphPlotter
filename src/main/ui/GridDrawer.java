@@ -17,6 +17,7 @@ public class GridDrawer extends JPanel {
         width = frameWidth;
         height = frameHeight - 5;
         scale = 40;
+        setBounds(0, 0, width, height);
     }
 
     @Override

@@ -17,6 +17,8 @@ public class EquationList {
     //EFFECTS: adds given equation to list
     public void addEquation(Equation eq) {
         graphList.add(eq);
+        EventLog.getInstance().logEvent(new Event("An equation y = "
+                + eq.getEquation() + " added to List"));
     }
 
     //EFFECTS: returns a string representing all graphs in list
@@ -54,6 +56,7 @@ public class EquationList {
     //EFFECTS: removes equation from list at given index - 1
     public void removeEquation(int index) {
         graphList.remove(index);
+        EventLog.getInstance().logEvent(new Event("Equation at index " + index + " removed from list."));
     }
 
     //REQUIRES: index > 0 and smaller than length of list
@@ -61,6 +64,8 @@ public class EquationList {
     //EFFECTS: changes equation at index + 1 in list to eq
     public void updateEquation(int index, Equation eq) {
         graphList.set(index, eq);
+        EventLog.getInstance().logEvent(new Event("Equation at index " + index
+                + " updated to: y=" + eq.getEquation()));
     }
 
     //EFFECTS: returns length of list
