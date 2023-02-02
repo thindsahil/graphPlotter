@@ -1,4 +1,5 @@
 # Simple Graph Plotter
+Plots equations like *y=2x^2 + 2x -log(e)*, *y=sin(tan(x))*, etc.
 <!--
 ## About
 
