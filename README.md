@@ -1,10 +1,10 @@
 # Simple Graph Plotter
-Plots equations like *y=2x^2 + 2x -log(e)*, *y=sin(tan(x))*, etc.
+Plots equations like `y=2x^2 + 2x -log(e)`, `y=sin(tan(x))`, etc.
 <!--
 ## About
 
 **What?**
-
+Cancel changes
 This application is a simple polynomial graph plotter. It allows the user to input a simple equation like
 *y=2x^2 + 2* and then display a graph corresponding to the equation.
 
