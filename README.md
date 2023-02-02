@@ -1,5 +1,5 @@
 # Simple Graph Plotter
-
+<!--
 ## About
 
 **What?**
@@ -53,3 +53,4 @@ will also be hard to track down bugs in code. If I had more time to work on the 
 - Possibly make the classes in `gui` package more independent
 - Add more 'specific' classes to decrease coupling
 - There should be a way to remove the Observers and still have same functionality
+-->
